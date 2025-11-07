@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-100 to-accent-100 text-primary-700 text-sm font-medium mb-6">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            Risk Analytics Dashboard
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-4">
+            Patient Risk Dashboard
+        </h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Comprehensive overview of cardiovascular risk assessments and patient analytics
+        </p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Assessments</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ stats.total }}</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">High Risk Patients</p>
+                    <p class="text-3xl font-bold text-red-600">{{ stats.high_risk }}</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="alert-triangle" class="w-6 h-6 text-white"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Low Risk Patients</p>
+                    <p class="text-3xl font-bold text-green-600">{{ stats.low_risk }}</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Average Risk</p>
+                    <p class="text-3xl font-bold text-orange-600">{{ '%.1f'|format(stats.avg_risk) }}%</p>
+                </div>
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Risk Distribution Chart -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8 mb-12">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="pie-chart" class="w-5 h-5 text-white"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900">Risk Distribution</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+                <canvas id="riskChart" width="400" height="400"></canvas>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-red-50 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                        <span class="font-medium text-gray-900">High Risk (>50%)</span>
+                    </div>
+                    <span class="text-2xl font-bold text-red-600">{{ stats.high_risk }}</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-yellow-50 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        <span class="font-medium text-gray-900">Medium Risk (25-50%)</span>
+                    </div>
+                    <span class="text-2xl font-bold text-yellow-600">{{ stats.medium_risk }}</span>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-green-50 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                        <span class="font-medium text-gray-900">Low Risk (<25%)</span>
+                    </div>
+                    <span class="text-2xl font-bold text-green-600">{{ stats.low_risk }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Records Table -->
+    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="table" class="w-5 h-5 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Patient Records</h2>
+            </div>
+            <div class="flex items-center gap-2">
+                <input type="text" id="searchInput" placeholder="Search patients..." class="px-4 py-2 border border-gray-200 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                <button class="p-2 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-colors">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full" id="patientsTable">
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Patient</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Demographics</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Risk Score</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Risk Level</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Assessment Date</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for row in rows %}
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900">{{ row[0] or 'Anonymous' }}</div>
+                                    <div class="text-sm text-gray-500">Patient ID: #{{ loop.index }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900">{{ row[1] or 'N/A' }} years old</div>
+                                <div class="text-gray-500">{{ row[2] or 'N/A' }}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    {% set risk_value = row[3] or 0 %}
+                                    <div class="h-full transition-all duration-500 
+                                        {% if risk_value > 75 %}bg-red-500
+                                        {% elif risk_value > 50 %}bg-orange-500
+                                        {% elif risk_value > 25 %}bg-yellow-500
+                                        {% else %}bg-green-500{% endif %}" 
+                                        style="width: {{ risk_value }}%"></div>
+                                </div>
+                                <span class="font-bold text-lg
+                                    {% if risk_value > 75 %}text-red-600
+                                    {% elif risk_value > 50 %}text-orange-600
+                                    {% elif risk_value > 25 %}text-yellow-600
+                                    {% else %}text-green-600{% endif %}">
+                                    {{ '%.1f'|format(risk_value) }}%
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            {% set risk_value = row[3] or 0 %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                                {% if risk_value > 50 %}bg-red-100 text-red-800
+                                {% elif risk_value > 25 %}bg-yellow-100 text-yellow-800
+                                {% else %}bg-green-100 text-green-800{% endif %}">
+                                {% if risk_value > 50 %}
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 mr-1"></i>
+                                    High Risk
+                                {% elif risk_value > 25 %}
+                                    <i data-lucide="alert-circle" class="w-4 h-4 mr-1"></i>
+                                    Medium Risk
+                                {% else %}
+                                    <i data-lucide="shield-check" class="w-4 h-4 mr-1"></i>
+                                    Low Risk
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-900">{{ row[5] or 'N/A' }}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <button class="p-2 text-primary-600 hover:bg-primary-50 rounded-lg transition-colors" title="View Details">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </button>
+                                <button class="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors" title="Download Report">
+                                    <i data-lucide="download" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% if not rows %}
+        <div class="text-center py-12">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="database" class="w-8 h-8 text-gray-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">No assessments yet</h3>
+            <p class="text-gray-600 mb-6">Start by creating your first risk assessment</p>
+            <a href="/predict" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                New Assessment
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pass data from backend to JavaScript
+    window.chartStats = {{ stats|tojson }};
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        lucide.createIcons();
+        
+        // Risk Distribution Chart
+        const ctx = document.getElementById('riskChart').getContext('2d');
+        const riskData = [window.chartStats.high_risk, window.chartStats.medium_risk, window.chartStats.low_risk];
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['High Risk (>50%)', 'Medium Risk (25-50%)', 'Low Risk (<25%)'],
+                datasets: [{
+                    data: riskData,
+                    backgroundColor: [
+                        '#ef4444',
+                        '#f59e0b',
+                        '#10b981'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+        
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const table = document.getElementById('patientsTable');
+        const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const text = row.textContent.toLowerCase();
+                
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

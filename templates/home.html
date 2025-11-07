@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-accent-50"></div>
+    <div class="absolute top-0 left-0 w-full h-full">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-primary-200/30 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-accent-200/30 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div class="text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-primary-200/50 text-primary-700 text-sm font-medium mb-8">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                AI-Powered Heart Disease Prediction
+            </div>
+            
+            <!-- Main Heading -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                <span class="bg-gradient-to-r from-primary-600 via-primary-700 to-accent-600 bg-clip-text text-transparent">
+                    Early Detection.
+                </span>
+                <br>
+                <span class="bg-gradient-to-r from-accent-600 via-accent-500 to-primary-600 bg-clip-text text-transparent">
+                    Better Care.
+                </span>
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+                Cardia4 combines advanced machine learning with deep learning models to analyze your health data, 
+                medical scans, and vital signs for comprehensive cardiovascular risk assessment.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                <a href="/predict" class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                    Get Risk Assessment
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="/dashboard" class="inline-flex items-center gap-2 px-8 py-4 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 font-semibold rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-300">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    View Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-white/50 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                Comprehensive Health Analysis
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Our AI platform combines multiple data sources for the most accurate cardiovascular risk assessment
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Feature 1 -->
+            <div class="group p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 hover:border-primary-200 transition-all duration-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">ML Models</h3>
+                <p class="text-gray-600">Advanced machine learning algorithms analyze your vital signs and medical history</p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="group p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 hover:border-primary-200 transition-all duration-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="scan" class="w-6 h-6 text-white"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Medical Imaging</h3>
+                <p class="text-gray-600">Deep learning models process X-rays, MRIs, and ECG scans for detailed analysis</p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="group p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 hover:border-primary-200 transition-all duration-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="stethoscope" class="w-6 h-6 text-white"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Care Classification</h3>
+                <p class="text-gray-600">Hematology-based analysis determines optimal in-care or out-care treatment paths</p>
+            </div>
+            
+            <!-- Feature 4 -->
+            <div class="group p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 hover:border-primary-200 transition-all duration-300">
+                <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Risk Tracking</h3>
+                <p class="text-gray-600">Monitor your cardiovascular health over time with comprehensive dashboards</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 bg-gradient-to-r from-primary-600 to-accent-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
+            <div>
+                <div class="text-4xl font-bold mb-2">99.2%</div>
+                <div class="text-primary-100">Model Accuracy</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-2">5+</div>
+                <div class="text-primary-100">AI Models Combined</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-2">24/7</div>
+                <div class="text-primary-100">Health Monitoring</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Initialize icons after content loads
+    document.addEventListener('DOMContentLoaded', function() {
+        lucide.createIcons();
+    });
+</script>
+{% endblock %}

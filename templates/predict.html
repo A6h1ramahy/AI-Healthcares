@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-100 to-accent-100 text-primary-700 text-sm font-medium mb-6">
+            <i data-lucide="heart-pulse" class="w-4 h-4"></i>
+            AI-Powered Risk Assessment
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent mb-4">
+            Heart Disease Risk Assessment
+        </h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Complete your medical information and upload scans for comprehensive AI-powered cardiovascular risk analysis
+        </p>
+    </div>
+
+    <form id="predictForm" method="post" enctype="multipart/form-data" class="space-y-8">
+        <!-- Patient Information Card -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Patient Information</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Full Name</label>
+                    <input name="name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" placeholder="Enter full name" />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Age</label>
+                    <input name="age" type="number" min="0" max="120" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" placeholder="Age" required />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Sex</label>
+                    <select name="sex" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Chest Pain Type</label>
+                    <select name="cp" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="0">Typical Angina</option>
+                        <option value="1">Atypical Angina</option>
+                        <option value="2">Non-Anginal Pain</option>
+                        <option value="3">Asymptomatic</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vital Signs Card -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="activity" class="w-5 h-5 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Vital Signs</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Resting Blood Pressure</label>
+                    <input name="trestbps" type="number" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" placeholder="mmHg" />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Cholesterol</label>
+                    <input name="chol" type="number" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" placeholder="mg/dl" />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Max Heart Rate</label>
+                    <input name="thalach" type="number" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" placeholder="bpm" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Lab Results Card -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="flask-conical" class="w-5 h-5 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Lab Results</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Fasting Blood Sugar</label>
+                    <select name="fbs" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="0">Normal (≤ 120 mg/dl)</option>
+                        <option value="1">High (> 120 mg/dl)</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Resting ECG</label>
+                    <select name="restecg" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="0">Normal</option>
+                        <option value="1">ST-T Wave Abnormality</option>
+                        <option value="2">Left Ventricular Hypertrophy</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Exercise Induced Angina</label>
+                    <select name="exang" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">ST Depression (Oldpeak)</label>
+                    <input name="oldpeak" type="number" step="0.1" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" placeholder="0.0" />
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">ST Slope</label>
+                    <select name="slope" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="0">Upsloping</option>
+                        <option value="1">Flat</option>
+                        <option value="2">Downsloping</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Major Vessels (CA)</label>
+                    <select name="ca" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="0">0 vessels</option>
+                        <option value="1">1 vessel</option>
+                        <option value="2">2 vessels</option>
+                        <option value="3">3 vessels</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-6">
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">Thalassemia</label>
+                    <select name="thal" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200">
+                        <option value="1">Normal</option>
+                        <option value="2">Fixed Defect</option>
+                        <option value="3">Reversible Defect</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Imaging Card -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="scan" class="w-5 h-5 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Medical Imaging</h2>
+                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Optional</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700">Chest X-ray</label>
+                    <div class="relative">
+                        <input type="file" name="xray" accept="image/*" class="hidden" id="xray-upload" />
+                        <label for="xray-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all duration-200 cursor-pointer">
+                            <i data-lucide="upload" class="w-8 h-8 text-gray-400 mb-2"></i>
+                            <span class="text-sm text-gray-600">Upload X-ray</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700">Cardiac MRI</label>
+                    <div class="relative">
+                        <input type="file" name="mri" accept="image/*" class="hidden" id="mri-upload" />
+                        <label for="mri-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all duration-200 cursor-pointer">
+                            <i data-lucide="upload" class="w-8 h-8 text-gray-400 mb-2"></i>
+                            <span class="text-sm text-gray-600">Upload MRI</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700">ECG Image</label>
+                    <div class="relative">
+                        <input type="file" name="ecg" accept="image/*" class="hidden" id="ecg-upload" />
+                        <label for="ecg-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl hover:border-primary-500 hover:bg-primary-50 transition-all duration-200 cursor-pointer">
+                            <i data-lucide="upload" class="w-8 h-8 text-gray-400 mb-2"></i>
+                            <span class="text-sm text-gray-600">Upload ECG</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Weights Card -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200/50 p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="settings" class="w-5 h-5 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Model Weights</h2>
+                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Advanced</span>
+            </div>
+            <div class="space-y-3">
+                <label class="block text-sm font-semibold text-gray-700">Weights (Tabular, X-ray, MRI, ECG)</label>
+                <input name="weights" placeholder="0.4, 0.2, 0.2, 0.2" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200" />
+                <p class="text-sm text-gray-500">Adjust the importance of each model in the final risk calculation</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button type="submit" class="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                <i data-lucide="brain" class="w-5 h-5"></i>
+                <span>Analyze Risk</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <button type="button" id="resetBtn" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 font-semibold rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-300">
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                Reset Form
+            </button>
+        </div>
+
+        <!-- Results Card -->
+        <div id="resultBox" class="hidden bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 p-8">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">Risk Assessment Results</h3>
+            </div>
+            <div id="resultContent" class="space-y-6">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        lucide.createIcons();
+        
+        const form = document.getElementById('predictForm');
+        const resultBox = document.getElementById('resultBox');
+        const resultContent = document.getElementById('resultContent');
+        const resetBtn = document.getElementById('resetBtn');
+        
+        // File upload preview
+        ['xray', 'mri', 'ecg'].forEach(type => {
+            const input = document.getElementById(`${type}-upload`);
+            const label = input.nextElementSibling;
+            
+            input.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const fileName = e.target.files[0].name;
+                    label.innerHTML = `
+                        <i data-lucide="check-circle" class="w-8 h-8 text-green-500 mb-2"></i>
+                        <span class="text-sm text-green-600">${fileName}</span>
+                    `;
+                    lucide.createIcons();
+                }
+            });
+        });
+        
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.innerHTML = `
+                <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <span>Analyzing...</span>
+            `;
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                displayResults(data);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultContent.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex items-center gap-2 text-red-700">
+                            <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                            <span class="font-semibold">Error</span>
+                        </div>
+                        <p class="text-red-600 mt-2">${error.message}</p>
+                    </div>
+                `;
+                resultBox.classList.remove('hidden');
+                lucide.createIcons();
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                lucide.createIcons();
+            }
+        });
+        
+        // Reset form
+        resetBtn.addEventListener('click', function() {
+            form.reset();
+            resultBox.classList.add('hidden');
+            
+            // Reset file upload labels
+            ['xray', 'mri', 'ecg'].forEach(type => {
+                const input = document.getElementById(`${type}-upload`);
+                const label = input.nextElementSibling;
+                label.innerHTML = `
+                    <i data-lucide="upload" class="w-8 h-8 text-gray-400 mb-2"></i>
+                    <span class="text-sm text-gray-600">Upload ${type.toUpperCase()}</span>
+                `;
+            });
+            lucide.createIcons();
+        });
+        
+        function displayResults(data) {
+            const getRiskColor = (risk) => {
+                if (risk >= 70) return 'red';
+                if (risk >= 40) return 'yellow';
+                return 'green';
+            };
+            
+            const getRiskLevel = (risk) => {
+                if (risk >= 70) return 'High Risk';
+                if (risk >= 40) return 'Moderate Risk';
+                return 'Low Risk';
+            };
+            
+            resultContent.innerHTML = `
+                <!-- Overall Risk Score -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-6">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold ${data.risk_final >= 70 ? 'text-red-600' : data.risk_final >= 40 ? 'text-yellow-600' : 'text-green-600'} mb-2">
+                            ${data.risk_final}%
+                        </div>
+                        <div class="text-lg font-semibold text-gray-700 mb-2">Overall Risk Score</div>
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full ${data.risk_final >= 70 ? 'bg-red-100 text-red-700' : data.risk_final >= 40 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}">
+                            <i data-lucide="${data.risk_final >= 70 ? 'alert-triangle' : data.risk_final >= 40 ? 'alert-circle' : 'check-circle'}" class="w-4 h-4"></i>
+                            <span class="font-medium">${getRiskLevel(data.risk_final)}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Individual Model Scores -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white border border-gray-200 rounded-xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="brain" class="w-4 h-4 text-blue-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-700">ML Model</span>
+                        </div>
+                        <div class="text-2xl font-bold text-${getRiskColor(data.risk_ml)}-600">${data.risk_ml}%</div>
+                        <div class="text-sm text-gray-500">Tabular Data Analysis</div>
+                    </div>
+                    
+                    <div class="bg-white border border-gray-200 rounded-xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="scan" class="w-4 h-4 text-purple-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-700">X-ray AI</span>
+                        </div>
+                        <div class="text-2xl font-bold text-${getRiskColor(data.risk_xray)}-600">${data.risk_xray}%</div>
+                        <div class="text-sm text-gray-500">Chest X-ray Analysis</div>
+                    </div>
+                    
+                    <div class="bg-white border border-gray-200 rounded-xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="heart" class="w-4 h-4 text-green-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-700">MRI AI</span>
+                        </div>
+                        <div class="text-2xl font-bold text-${getRiskColor(data.risk_mri)}-600">${data.risk_mri}%</div>
+                        <div class="text-sm text-gray-500">Cardiac MRI Analysis</div>
+                    </div>
+                    
+                    <div class="bg-white border border-gray-200 rounded-xl p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i data-lucide="activity" class="w-4 h-4 text-red-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-700">ECG AI</span>
+                        </div>
+                        <div class="text-2xl font-bold text-${getRiskColor(data.risk_ecg)}-600">${data.risk_ecg}%</div>
+                        <div class="text-sm text-gray-500">ECG Analysis</div>
+                    </div>
+                </div>
+                
+                <!-- Recommendations -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+                            <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-600"></i>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-800">Clinical Recommendations</h4>
+                    </div>
+                    <div class="space-y-3">
+                        ${data.risk_final >= 70 ? `
+                            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-red-600 mt-0.5"></i>
+                                <div>
+                                    <div class="font-medium text-red-800">Immediate Medical Attention Required</div>
+                                    <div class="text-red-700 text-sm">High cardiovascular risk detected. Recommend immediate cardiology consultation and comprehensive cardiac evaluation.</div>
+                                </div>
+                            </div>
+                        ` : data.risk_final >= 40 ? `
+                            <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
+                                <i data-lucide="alert-circle" class="w-5 h-5 text-yellow-600 mt-0.5"></i>
+                                <div>
+                                    <div class="font-medium text-yellow-800">Moderate Risk - Follow-up Recommended</div>
+                                    <div class="text-yellow-700 text-sm">Schedule follow-up appointment within 2-4 weeks. Consider lifestyle modifications and monitoring.</div>
+                                </div>
+                            </div>
+                        ` : `
+                            <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-600 mt-0.5"></i>
+                                <div>
+                                    <div class="font-medium text-green-800">Low Risk - Continue Preventive Care</div>
+                                    <div class="text-green-700 text-sm">Maintain healthy lifestyle. Regular check-ups as per standard guidelines.</div>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="window.print()" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
+                        Print Report
+                    </button>
+                    <a href="/dashboard" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                        View Dashboard
+                    </a>
+                </div>
+            `;
+            
+            resultBox.classList.remove('hidden');
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+            lucide.createIcons();
+        }
+    });
+</script>
+{% endblock %}

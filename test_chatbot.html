@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <h1 class="text-2xl font-bold mb-4">Chatbot Test Page</h1>
+    <p>This page tests if the chatbot widget appears and works.</p>
+    
+    <!-- Simple test chatbot -->
+    <div id="simple-chat-button" class="fixed bottom-6 right-6 z-50 cursor-pointer">
+        <div class="w-16 h-16 bg-blue-600 rounded-full shadow-lg flex items-center justify-center text-white hover:shadow-xl">
+            <span>💬</span>
+        </div>
+    </div>
+
+    <div id="simple-chat-window" class="fixed bottom-20 right-6 z-50 w-96 h-96 bg-white rounded-lg shadow-xl border hidden">
+        <div class="bg-blue-600 text-white p-4 rounded-t-lg">
+            <h3>Test Chat</h3>
+        </div>
+        <div class="p-4">
+            <div id="test-messages" class="h-48 overflow-y-auto mb-4 border rounded p-2">
+                <div class="text-gray-600">Test chatbot loaded successfully!</div>
+            </div>
+            <div class="flex gap-2">
+                <input type="text" id="test-input" class="flex-1 border rounded px-2 py-1" placeholder="Type a message...">
+                <button id="test-send" class="bg-blue-600 text-white px-4 py-1 rounded">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Test page loaded');
+        
+        // Simple test chatbot
+        document.getElementById('simple-chat-button').addEventListener('click', function() {
+            const window = document.getElementById('simple-chat-window');
+            window.classList.toggle('hidden');
+            console.log('Chat window toggled');
+        });
+
+        document.getElementById('test-send').addEventListener('click', function() {
+            const input = document.getElementById('test-input');
+            const messages = document.getElementById('test-messages');
+            
+            if (input.value.trim()) {
+                messages.innerHTML += `<div class="mb-2"><strong>You:</strong> ${input.value}</div>`;
+                messages.innerHTML += `<div class="mb-2 text-blue-600"><strong>Bot:</strong> Test response to "${input.value}"</div>`;
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+                console.log('Message sent and response added');
+            }
+        });
+
+        // Test API endpoint
+        async function testAPI() {
+            try {
+                console.log('Testing API endpoint...');
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'test' })
+                });
+                console.log('API Response status:', response.status);
+                const data = await response.json();
+                console.log('API Response data:', data);
+            } catch (error) {
+                console.error('API Test failed:', error);
+            }
+        }
+
+        // Test API after 2 seconds
+        setTimeout(testAPI, 2000);
+    </script>
+</body>
+</html>
